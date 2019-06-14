@@ -1,2 +1,2 @@
 # flutter-random_number
-Random number generator flutter project
+Simple random number generator using dart + flutter
