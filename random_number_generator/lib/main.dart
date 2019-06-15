@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return this.random.nextInt(maxNumber) + 1;
   }
 
-  void _randomNumer() {
+  void _randomNumber() {
     setState(() {
       int sizePickedNumberList = pickedNumbers.length;
       if (sizePickedNumberList < maxNumber) {
@@ -45,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
         }
         pickedNumbers[pickedNumber] = sizePickedNumberList + 1;
         _counter = pickedNumber.toString();
-        print(pickedNumbers);
       }
     });
   }
@@ -74,42 +73,72 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: TextField(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Center(
+                  child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Enter max number:',
+                  labelStyle: TextStyle(color: Colors.blue),
+                ),
                 textAlign: TextAlign.center,
+                maxLength: 4,
                 style: TextStyle(color: Colors.lightBlue, fontSize: 40),
                 key: Key('maxNumberField'),
                 onChanged: _onMaxNumberChange,
                 keyboardType: TextInputType.numberWithOptions(
                     signed: false, decimal: false),
-              ),
+              )),
             ),
-            if (pickedNumbers.length < maxNumber)
-              Text(
-                'Pushe the blue button to pick a number',
-                style: TextStyle(fontSize: 20, color: Colors.blue),
-                textAlign: TextAlign.center,
-              )
+            if (pickedNumbers.length == 0)
+              Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    'Push the blue button to pick random numbers',
+                    style: TextStyle(fontSize: 30, color: Colors.blue),
+                    textAlign: TextAlign.center,
+                  ))
             else
-              Text(
-                'No numbers left!',
-                style: TextStyle(color: Colors.red, fontSize: 20),
-              ),
+              if (pickedNumbers.length == maxNumber)
+                Text(
+                  'No numbers left!',
+                  style: TextStyle(color: Colors.red, fontSize: 20),
+                ),
             if (pickedNumbers.length > 0)
               Text(
                 'Last picked number:',
                 style: TextStyle(fontSize: 30),
               ),
-            if (pickedNumbers.length <= maxNumber)
-              Text(
-                '$_counter',
-                style: TextStyle(
-                    fontSize: 100,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold),
+            if (pickedNumbers.length <= maxNumber && pickedNumbers.length > 0)
+              Container(
+                height: 180,
+                width: (maxNumber.toString().length * 90.0),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(1, 1),
+                      blurRadius: 5,
+                      spreadRadius: 5,
+                    )
+                  ],
+                  color: Color(0x330000FF),
+                  borderRadius: BorderRadius.circular(
+                      (maxNumber.toString().length * 90.0) / 2),
+                ),
+                child: Center(
+                  child: Text(
+                    '$_counter',
+                    style: TextStyle(
+                      fontSize: 100,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             SizedBox(
-              height: 30,
+              height: 40,
             ),
           ],
         ),
@@ -119,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
           : FloatingActionButtonLocation.centerFloat,
       floatingActionButton: (pickedNumbers.length < maxNumber)
           ? FloatingActionButton(
-              onPressed: _randomNumer,
+              onPressed: _randomNumber,
               tooltip: 'Random',
               child: Icon(Icons.redo),
             )
